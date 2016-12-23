@@ -2,7 +2,10 @@ package com.niit.ecomshopping.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.niit.ecomshopping.temp.UserDAO;
 
 @Controller
 public class HomeController {
@@ -24,7 +27,27 @@ public class HomeController {
 	{
 		ModelAndView mv=new ModelAndView("home");
 		mv.addObject("msg", "You clicked registration link");
-		mv.addObject("showRegistrationPage","true");
+		mv.addObject("showRegiregisterstrationPage","true");
+		return mv; 
+	}
+	@RequestMapping("/validate")
+	public ModelAndView validate(@RequestParam("id")String id,@RequestParam("password")String pwd)
+	{
+		System.out.println("In validate method");
+		System.out.println("id:"+id);
+		System.out.println("pwd:"+pwd);
+		ModelAndView mv=new ModelAndView("home");
+		UserDAO userDAO=new UserDAO();
+
+			if(userDAO.isValidCredentials(id,pwd)==true)
+			{
+				mv.addObject("successMsg","You logged in successfully");
+			}
+			else
+			{
+				mv.addObject("errorMsg","Invalid Credentials... Please try again");
+				
+			}
 		return mv;
 	}
 }
